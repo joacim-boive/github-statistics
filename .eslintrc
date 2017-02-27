@@ -1,0 +1,29 @@
+{
+  "env": {
+    "browser": 1, //browser global variables.
+    "jquery": 1, //jquery global variables.
+    "amd": 1 //RequireJS
+  },
+  "globals": { //Specifying other globals that are exposed in the current project
+    "chrome": 1
+  },
+  "rules": {
+    "strict": [2, "global"], //controls location of Use Strict Directives
+    "valid-jsdoc": [1, {
+      "requireReturn": false,
+      "requireReturnDescription": false
+    }],
+    "one-var": [1, "never"], //allow or disallow one variable declaration per function
+    "eqeqeq": 1, //require the use of === and !==
+    "quotes": [1, "single"], //specify whether backticks, double or single quotes should be used
+    "no-script-url": 1, //disallow use of javascript: urls.
+    "curly": 1, //specify curly brace conventions for all control statements
+    "latedef": 0,
+    "no-unused-vars": 1, //disallow declaration of variables that are not used in the code
+    "guard-for-in": 1, //make sure for-in loops have an if statement
+    "no-mixed-spaces-and-tabs": [2,"smart-tabs"], //disallow mixed spaces and tabs for indentation
+    "key-spacing": 0, //enforces spacing between keys and values in object literal properties (disabled)
+    "no-multi-spaces": 0, // disallow use of multiple spaces (disabled)
+    "no-trailing-spaces": 0
+  }
+}
