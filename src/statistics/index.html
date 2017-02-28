@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Review Statistics</title>
+
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 1%;
+        }
+
+        form {
+            max-width: 600px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+        }
+
+        .glyphicon-calendar {
+            right: 25px;
+            color: rgb(161, 160, 171);
+        }
+
+        canvas{
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        #chartjs-tooltip {
+            opacity: 1;
+            position: absolute;
+            background: rgba(0, 0, 0, .7);
+            color: white;
+            border-radius: 3px;
+            -webkit-transition: all .1s ease;
+            transition: all .1s ease;
+            pointer-events: none;
+            -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+        }
+
+        .chartjs-tooltip-key {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin-right: 10px;
+        }
+    </style>
+
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="../../bower_components/RandomColor/dist/rcolor.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <canvas id="chartTotal"></canvas>
+    <canvas id="chartPeriod"></canvas>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
