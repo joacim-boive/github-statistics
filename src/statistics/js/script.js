@@ -79,6 +79,22 @@
         })
     };
 
+    let createChart = (id, data, type = 'line') => {
+        return new Chart(document.getElementById(id), {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    };
+
     let createDataset = (thisData) => {
         let detailsDataset = {};
         let detailsData = {};
@@ -163,22 +179,6 @@
         data.datasets.push(dataset);
 
         createChart('chartTotal', data, 'bar');
-    };
-
-    let createChart = (id, data, type = 'line') => {
-        return new Chart(document.getElementById(id), {
-            type: type,
-            data: data,
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
     };
 
     chrome.storage.local.get({
