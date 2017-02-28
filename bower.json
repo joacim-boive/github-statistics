@@ -1,0 +1,23 @@
+{
+  "name": "github-statistics",
+  "homepage": "https://github.com/joacim-boive/github-statistics",
+  "authors": [
+    "joacim.boive@gmail.com"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3",
+    "chart.js": "^2",
+    "RandomColor": "https://github.com/sterlingwes/RandomColor.git"
+  }
+}
