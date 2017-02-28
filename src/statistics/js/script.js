@@ -1,22 +1,27 @@
 'use strict';
 {
+    Chart.defaults.global.elements.line.fill = false;
+    Chart.defaults.global.legend.labels.boxWidth = 4;
+    Chart.defaults.global.elements.tension = 0.2;
+
+
     let toBase64 = input => {
         return window.btoa(decodeURIComponent(encodeURIComponent(input)));
     };
 
+    let getUserData = (storage) => {
+        const IGNORE_USERS = storage.ignore.split(','); //We don't care about the stats for these users.
 
-    let getUserData = () => {
         let users = {};
         let lookups = [];
         let dates = [];
 
         const headers = new Headers({
-            'Authorization': 'Basic ' + toBase64('lensway:sh0wm3d4c0dez')
+            'Authorization': 'Basic ' + toBase64(storage.login + ':' + storage.password)
         });
 
         return new Promise((resolve, reject) => {
-            fetch(
-                'https://api.github.com/repos/lensway/lensway-all/pulls?state=all&page=1&per_page=100', {
+            fetch(`https://api.github.com/repos/${storage.github}/pulls?state=all&page=1&per_page=100`, {
                     method: 'GET',
                     redirect: 'follow',
                     headers: headers
@@ -28,7 +33,7 @@
                     headers.append('Accept', 'application/vnd.github.black-cat-preview+json');
 
                     for (let pr of json) {
-                        lookups.push(fetch(`https://api.github.com/repos/lensway/lensway-all/pulls/${pr.number}/reviews`, {
+                        lookups.push(fetch(`https://api.github.com/repos/${storage.github}/pulls/${pr.number}/reviews`, {
                             method: 'GET',
                             redirect: 'follow',
                             headers: headers
@@ -37,6 +42,10 @@
                         }).then(reviews => {
                             for (let review of reviews) {
                                 let thisDate = new Date(new Date(review.submitted_at).setHours(0, 0, 0, 0)).toISOString().split('T')[0];
+
+                                if(IGNORE_USERS.includes(review.user.login)){
+                                    return; //Ignore these users
+                                }
 
                                 if (users[review.user.login]) {
                                     if (users[review.user.login][thisDate]) {
@@ -111,7 +120,7 @@
                 }
 
                 if (hasDate === false) {
-                    detailsData.datasets[index].data.push(0);
+                    detailsData.datasets[index].data.push(0); //Add a 0 for this date as no reviews could be found.
                 }
             }
         }
@@ -123,6 +132,7 @@
 
         let data = {};
         let dataset = {};
+        let user = [];
 
         data.labels = [];
         data.datasets = [];
@@ -131,12 +141,23 @@
         dataset.data = [];
 
         detailsData.datasets.map((details) => {
+            user.push(
+                {
+                    label: details.label,
+                    total: details.data.reduce((a, b) => a + b)
+                }
+            )
+        });
+
+        user.sort((a, b) => {
+            return b.total - a.total; //Sort in descending order
+        });
+
+        user.map(details => {
             data.labels.push(details.label);
 
-            dataset.label = 'Total';
-
             dataset.backgroundColor.push(rcolor());
-            dataset.data.push(details.data.reduce((a, b) => a + b));
+            dataset.data.push(details.total);
         });
 
         data.datasets.push(dataset);
@@ -145,10 +166,6 @@
     };
 
     let createChart = (id, data, type = 'line') => {
-        Chart.defaults.global.elements.line.fill = false;
-        Chart.defaults.global.legend.labels.boxWidth = 4;
-        Chart.defaults.global.elements.tension = 0.2;
-
         return new Chart(document.getElementById(id), {
             type: type,
             data: data,
@@ -164,11 +181,12 @@
         });
     };
 
-
-    let init = () => {
-
-        getUserData().then(data => createDataset(data));
-    };
-
-    init();
+    chrome.storage.local.get({
+        'github': '',
+        'login': '',
+        'password': '',
+        'ignore': ''
+    }, function (storage) {
+        getUserData(storage).then(data => createDataset(data));
+    })
 }
