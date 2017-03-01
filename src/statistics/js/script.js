@@ -185,6 +185,7 @@
             dataset.data.push(details.total);
         });
 
+        dataset.label = 'Total amount during period';
         data.datasets.push(dataset);
 
         createChart('chartTotal', data, 'bar');
