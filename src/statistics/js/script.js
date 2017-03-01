@@ -80,6 +80,15 @@
     };
 
     let createChart = (id, data, type = 'line') => {
+        const loading = document.getElementById('loading');
+        const headline = document.getElementById('headline');
+
+        if(loading){
+            loading.parentNode.removeChild(loading);
+            headline.classList.remove('visuallyhidden');
+            headline.classList.add('bounceInLeft');
+        }
+
         return new Chart(document.getElementById(id), {
             type: type,
             data: data,
