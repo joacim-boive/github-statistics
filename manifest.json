@@ -1,8 +1,8 @@
 {
-  "name": "GitHubReviewStats",
-  "version": "0.0.0.1",
+  "name": "GitHub Review Stats",
+  "version": "0.0.0.3",
   "manifest_version": 2,
-  "description": "Show GitHub review statistics",
+  "description": "Show GitHub review statistics for all contributors",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -11,7 +11,7 @@
   },
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "GitHubReviewStats",
+    "default_title": "GitHub Review Stats",
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
